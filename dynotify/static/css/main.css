@@ -1,0 +1,15 @@
+body {
+    padding-top: 20px;
+}
+
+#subscribe-panel {
+    margin-top: 100px;
+}
+
+#dynamo-logo {
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    z-index: -1;
+    /*border: 1px solid black;*/
+}

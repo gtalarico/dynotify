@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Dynotify</title>
+  <meta name="description" content="Notification System for Dynamo Forum">
+  <meta name="author" content="SitePoint">
+
+  {% load staticfiles %}
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static "css/main.css" %}">
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+
+        {% include "_messages.html" %}
+
+        <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default" id="subscribe-panel">
+                        <img src="{% static "img/dynamo_small.png" %}" alt="Dynamo Logo" id="dynamo-logo"/>
+                        <div class="panel-heading">
+                            <h4>Dynotify</h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <h4>How does it work?</h4>
+                            <p>Dynotify is a simple service to receive email notifications when a
+                            new post is submitted on Dynamo's Community Forum</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default" id="subscribe-panel">
+                        <div class="panel-heading">
+                            <h4>Email List</h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <form method="post">
+                            {% csrf_token %}
+
+                            <div class="input-group">
+                              {{ form.email }}
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit"> Subscribe / Unsubscribe </button>
+                              </span>
+                            </div><!-- /input-group -->
+
+
+                            </form>
+                            <br>
+                            <p class="text-danger text-small">{{ form.email.errors.as_text }}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Current Posts</h4>
+                    </div>
+                    <div class="panel-body">
+
+                        <table class="table">
+                        <tr>
+                            <th>Post Title</th>
+                            <th>Timestamp</th>
+                        </tr>
+
+                        {% for post in posts %}
+                            <tr><td>{{ post }}</td><td>-</td></tr>
+
+                        {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</body>
+</div>
+</html>
