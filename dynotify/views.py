@@ -7,8 +7,8 @@ from django.template import RequestContext
 from django.contrib import messages
 
 from .forms import SubscriberForm
-from .services import get_posts
-from .models import Subscriber
+from .services import update_posts_db
+from .models import Subscriber, Post
 
 def index(request):
     context = RequestContext(request)
@@ -23,20 +23,26 @@ def index(request):
             if not Subscriber.objects.filter(email=email).exists():
                 subscriber = form.save(commit=False)
                 subscriber.save()
-                messages.success(request, 'Subscriber Added.')
+                messages.success(request, 'New Subscriber Added.')
+                form = SubscriberForm()
             else:
-                subscriber = Subscriber.objects.filter(email=email)
-                subscriber.delete()
-                messages.success(request, 'Subscriber Deleted.')
+                subscriber = Subscriber.objects.filter(email=email).first()
+                subscriber.is_active = not subscriber.is_active
+                subscriber.save()
+
+                if subscriber.is_active:
+                    messages.success(request, 'Subscriber Reactivated.')
+                else:
+                    messages.success(request, 'Subscriber Deactivated.')
 
 
         else:
             message = 'Something went wrong. Check the form for errors.'
             messages.warning(request, message)
 
+    update_posts_db()
 
     context['form'] = form
-    context['subscribers'] = Subscriber.objects.all()
-    context['posts'] = get_posts()
+    context['posts'] = Post.objects.all()
 
     return render(request, 'index.html', context=context)
