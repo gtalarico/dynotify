@@ -266,6 +266,7 @@ th {
   .table-bordered td {
     border: 1px solid #ddd !important;
   }
+}
 
 * {
   -webkit-box-sizing: border-box;
