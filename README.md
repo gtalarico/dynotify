@@ -2,7 +2,7 @@
 Alpha
 
 Dynotify is a makeshift service that sends email notifications periodically listing the new posts that have been submitted to <a href="http://dynamobim.org/forums/forum/dyn/"> Dynamo's Community Forum.</a>
-Dynotify will probably cease to exist if oficial forum notifications are fixed.
+Dynotify will probably cease to exist once oficial forum notifications are fixed.
 
 *Use at your own risk*
 
