@@ -3,7 +3,7 @@ import sys
 
 LOGGER_CONFIG = {
     'version': 1,
-    "disable_existing_loggers": Fase,
+    "disable_existing_loggers": False,
     'handlers': {
         'console':{
             'level':'INFO',
