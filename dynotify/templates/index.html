@@ -24,15 +24,15 @@
 </head>
 
 <body>
-    <div class="container">
+<div class="container">
 
         {% include "_messages.html" %}
 
         <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default" id="subscribe-panel">
-                        <img src="{% static "img/dynamo_small.png" %}" alt="Dynamo Logo" id="dynamo-logo"/>
                         <div class="panel-heading">
+                            <img src="{% static "img/dynamo_small.png" %}" alt="Dynamo Logo" id="dynamo-logo"/>
                             <h4>Dynotify</h4>
                         </div>
                         <div class="panel-body">
@@ -82,6 +82,8 @@
                         <table class="table">
                         <tr>
                             <th>Post Title</th>
+                            <th>Activity</th>
+                            <th>Creator</th>
                             <th>Timestamp</th>
                             <th>Status</th>
                         </tr>
@@ -89,8 +91,10 @@
                         {% for post in posts %}
                             <tr>
                                 <td>{{ post.title }}</td>
-                                <td>{{ post.timestamp}}</td>
-                                <td>{{ post.status}}</td>
+                                <td>{{ post.activity }}</td>
+                                <td>{{ post.op }}</td>
+                                <td>{{ post.timestamp }}</td>
+                                <td>{{ post.status }}</td>
                             </tr>
 
                         {% endfor %}
@@ -100,7 +104,17 @@
                 </div>
             </div>
     </div>
+</div>
+
+<footer class="footer">
+<div class="container">
+<a href="https://github.com/gtalarico/dynotify" class="text-muted  pull-right">
+<small>
+https://github.com/gtalarico/dynotify
+</small>
+</a>
+</div>
+</footer>
 
 </body>
-</div>
 </html>
