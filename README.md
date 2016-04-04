@@ -14,6 +14,7 @@ Dynotify will probably cease to exist once oficial forum notifications are fixed
 * Switch Domain to dynotify.com
 * Clean up + Paginate Post List on Home
 * Update Activity Count on Update 
+* Add Google Analytics
 
 Live at:
 http://dynotify.herokuapp.com/
