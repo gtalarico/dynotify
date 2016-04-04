@@ -5,11 +5,13 @@ Alpha
 
 
 ## To Do
-* Task: Add Licence
-* Task: Clean up + Paginate Post List on Home
-* Task: Use Celery to dispatch notifications (replace scheduler)
+* Add Licence
+* Use Celery to dispatch notifications (replace scheduler)
 * Feature: Add User Options: Frequency, type
 * Feature: Subscribe to Topic
+* 
+* Clean up + Paginate Post List on Home
+* Update Activity Count on Update 
 
 Live at:
 http://dynotify.herokuapp.com/
