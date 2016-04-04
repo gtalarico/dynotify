@@ -42,7 +42,7 @@
 
                             <h5>How does it work?</h5>
                             <p>Dynotify is a simple service that sends email notifications periodically
-                            listing the new posts that have been submitted to <a hreg="http://dynamobim.org/forums/forum/dyn/">Dynamo's Community Forum</a></p>
+                            listing the new posts that have been submitted to <a href="http://dynamobim.org/forums/forum/dyn/">Dynamo's Community Forum</a></p>
 
                         </div>
                     </div>
@@ -78,13 +78,13 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>Current Posts</h4>
+                        <h4>First Page Posts</h4>
                     </div>
                     <div class="panel-body">
 
                         <table class="table">
                         <tr>
-                            <th>Post Title</th>
+                            <th>Title</th>
                             <th>Activity</th>
                             <th>Creator</th>
                             <th>Timestamp</th>
@@ -93,7 +93,7 @@
 
                         {% for post in posts %}
                             <tr>
-                                <td>{{ post.title }}</td>
+                                <td><a href="{{post.url}}">{{ post.title }}</a></td>
                                 <td>{{ post.activity }}</td>
                                 <td>{{ post.op }}</td>
                                 <td>{{ post.timestamp }}</td>

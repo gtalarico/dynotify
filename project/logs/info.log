@@ -72,3 +72,8 @@
 [INFO] Email parsing error: None [views.py](53)
 [INFO] Email parsing error: None [views.py](53)
 [INFO] Email parsing error: None [views.py](53)
+[INFO] Starting new HTTP connection (1): dynamobim.org [connectionpool.py](207)
+[INFO] Starting new HTTP connection (1): dynamobim.org [connectionpool.py](207)
+[INFO] Email Sent. [services.py](116)
+[INFO] Starting new HTTP connection (1): dynamobim.org [connectionpool.py](207)
+[INFO] Starting new HTTP connection (1): dynamobim.org [connectionpool.py](207)

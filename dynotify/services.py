@@ -90,7 +90,7 @@ def send_email_subscribed(email):
     mail = EmailMultiAlternatives(
     subject="Dynotify: Subscribed",
     body="Your email has been added to dynotify.herokuapps.com",
-    from_email="Dynotify <noreply@gmail.com>",
+    from_email="Dynotify <gtalarico@gmail.com>",
     to=[email],
     headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
 )
@@ -105,7 +105,7 @@ def send_email_unsubscribed(email):
     mail = EmailMultiAlternatives(
     subject="Dynotify: Unsubsribed",
     body="Your email has been remved from dynotify.herokuapps.com",
-    from_email="Dynotify <noreply@gmail.com>",
+    from_email="Dynotify <gtalarico@gmail.com>",
     to=[email],
     headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
 )
