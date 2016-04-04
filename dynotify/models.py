@@ -9,8 +9,12 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    post = models.TextField(blank=True)
+    op = models.CharField(max_length=200)
+    activity = models.IntegerField()
+    url = models.URLField(max_length=200)
+
     timestamp = models.DateTimeField(default=timezone.now)
+    # latest_activity = models.DateTimeField(blank=True)
     status = models.CharField(max_length=20, default=u'undefined')
 
     def __str__(self):
