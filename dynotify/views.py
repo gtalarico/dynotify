@@ -8,6 +8,7 @@ from django.contrib import messages
 
 from .forms import SubscriberForm
 from .services import update_posts_db
+from .services import send_email_subscribed, send_email_unsubscribed
 from .models import Subscriber, Post
 
 def index(request):
@@ -24,6 +25,7 @@ def index(request):
                 subscriber = form.save(commit=False)
                 subscriber.save()
                 messages.success(request, 'New Subscriber Added.')
+                send_email_subscribed(subscriber.email)
                 form = SubscriberForm()
             else:
                 subscriber = Subscriber.objects.filter(email=email).first()
@@ -32,7 +34,9 @@ def index(request):
 
                 if subscriber.is_active:
                     messages.success(request, 'Subscriber Reactivated.')
+                    send_email_subscribed(subscriber.email)
                 else:
+                    send_email_unsubscribed(subscriber.email)
                     messages.success(request, 'Subscriber Deactivated.')
 
 

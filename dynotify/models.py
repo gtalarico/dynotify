@@ -15,10 +15,10 @@ class Post(models.Model):
 
     timestamp = models.DateTimeField(default=timezone.now)
     # latest_activity = models.DateTimeField(blank=True)
-    status = models.CharField(max_length=20, default=u'undefined')
+    status = models.CharField(max_length=20)
 
     def __str__(self):
-        return str(self.title)
+        return unicode(self.title)
 
     def __repr__(self):
         return '<POST:{0}>'.format(self.title)
@@ -32,7 +32,7 @@ class Subscriber(models.Model):
     # user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.title)
+        return str(self.email)
 
     def __repr__(self):
         return '<SUBSCRIBER:{0}>'.format(self.email)

@@ -1,0 +1,8 @@
+Dynotify
+
+
+{% for post in posts %}
+{{ post.title }} | {{ post.activity  }} | {{ post.op }}
+{% endfor %}
+
+<p>To unsubscribe go to dynotify.herokuapps.com</p>

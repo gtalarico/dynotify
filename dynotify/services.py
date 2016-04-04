@@ -5,10 +5,17 @@ import logging
 import requests
 import bs4
 
-from .models import Post
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+
+from .models import Post, Subscriber
 # allows unicode printing
 # reload(sys)
 # sys.setdefaultencoding('utf8')
+
+logger = logging.getLogger()
 
 FORUM_URL = 'http://dynamobim.org/forums/forum/dyn/'
 POST_CONTAINERS_CLASS = 'bbp-topic bbp-custom-topics-container'
@@ -44,9 +51,66 @@ def update_posts_db():
         # print post.text.encode('utf-8')
 
 
-def check_if_already_sent():
+def send_dynotify():
 
-    pass
+    posts = Post.objects.filter(status='new')
+    
+    if posts:
+        plaintext = get_template('email.txt')
+        htmly     = get_template('email.html')
 
-def send_mass_emails():
-    pass
+        context = Context()
+        context['posts'] = posts
+
+        subject = 'Dynotify: Posts'
+        from_email=  'Dynotify <gtalarico@gmail.com>'
+        to = Subscriber.objects.filter(is_active=True).values_list('email',
+                                                                   flat=True)
+        headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+
+        text_content = plaintext.render(context)
+        html_content = htmly.render(context)
+        mail = EmailMultiAlternatives(
+            subject=subject, body=text_content, from_email=from_email,
+            to=to, headers=headers)
+
+        mail.attach_alternative(html_content, "text/html")
+        mail.send()
+        logger.info('Post Email Sent')
+
+        for post in posts:
+            post.status = 'sent'
+            post.save()
+
+        return True
+    else:
+        logger.info('No new Posts to notify.')
+
+def send_email_subscribed(email):
+    mail = EmailMultiAlternatives(
+    subject="Dynotify: Subscribed",
+    body="Your email has been added to dynotify.herokuapps.com",
+    from_email="Dynotify <noreply@gmail.com>",
+    to=[email],
+    headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+)
+    mail.attach_alternative("<p>Your email has been subscribed to \
+                            dynotify.herokuapps.com</p>", "text/html")
+
+    print mail.send()
+    logger.info('Email Sent.')
+
+
+def send_email_unsubscribed(email):
+    mail = EmailMultiAlternatives(
+    subject="Dynotify: Unsubsribed",
+    body="Your email has been remved from dynotify.herokuapps.com",
+    from_email="Dynotify <noreply@gmail.com>",
+    to=[email],
+    headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+)
+    mail.attach_alternative("<p>Your email has been subscribed to \
+                            dynotify.herokuapps.com</p>", "text/html")
+
+    print mail.send()
+    logger.info('Email Sent.')
