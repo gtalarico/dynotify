@@ -1,5 +1,4 @@
 import sys
-import re
 import logging
 
 import requests
@@ -23,6 +22,7 @@ POST_TITLE_CLASS = 'bbp-topic-permalink topic-title-bbpn'
 ACTIVITY_CLASS = 'topic-reply-count-area'
 OP_CLASS = 'bbp-author-name'
 
+
 def update_posts_db():
     r = requests.get(FORUM_URL)
     print 'STATUS:', r.status_code
@@ -45,34 +45,33 @@ def update_posts_db():
                         attrs={'class': POST_TITLE_CLASS}).get('href')
 
         if not Post.objects.filter(url=url).exists():
-            post = Post(title=title, op=op, activity=activity,url=url,
+            post = Post(title=title, op=op, activity=activity, url=url,
                         status='new')
             post.save()
         # print post.text.encode('utf-8')
 
-
+# This is called by a manager.py command notify, set on a 10 min schedule
 def send_dynotify():
-
     posts = Post.objects.filter(status='new')
-    
+
     if posts:
         plaintext = get_template('email.txt')
-        htmly     = get_template('email.html')
+        htmly    = get_template('email.html')
 
         context = Context()
         context['posts'] = posts
 
         subject = 'Dynotify: Posts'
-        from_email=  'Dynotify <gtalarico@gmail.com>'
+        from_email = 'Dynotify <gtalarico@gmail.com>'
         to = Subscriber.objects.filter(is_active=True).values_list('email',
                                                                    flat=True)
-        headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+        headers = {"Reply-To": "gtalarico+dynotify@gmail.com"}
 
         text_content = plaintext.render(context)
         html_content = htmly.render(context)
         mail = EmailMultiAlternatives(
             subject=subject, body=text_content, from_email=from_email,
-            to=to, headers=headers)
+            bcc=to, headers=headers)
 
         mail.attach_alternative(html_content, "text/html")
         mail.send()
@@ -82,9 +81,10 @@ def send_dynotify():
             post.status = 'sent'
             post.save()
 
-        return True
+        return len(posts)
     else:
         logger.info('No new Posts to notify.')
+
 
 def send_email_subscribed(email):
     mail = EmailMultiAlternatives(

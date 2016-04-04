@@ -13,6 +13,7 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="{% static "js/main.js" %}"></script>
 
   <!-- Latest compiled and minified CSS -->
   {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">#}
@@ -26,20 +27,22 @@
 <body>
 <div class="container">
 
+        <div class="row">
         {% include "_messages.html" %}
+        </div>
 
         <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-default" id="subscribe-panel">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <img src="{% static "img/dynamo_small.png" %}" alt="Dynamo Logo" id="dynamo-logo"/>
                             <h4>Dynotify</h4>
                         </div>
                         <div class="panel-body">
 
-                            <h4>How does it work?</h4>
-                            <p>Dynotify is a simple service to receive email notifications when a
-                            new post is submitted on Dynamo's Community Forum</p>
+                            <h5>How does it work?</h5>
+                            <p>Dynotify is a simple service that sends email notifications periodically
+                            listing the new posts that have been submitted to <a hreg="http://dynamobim.org/forums/forum/dyn/">Dynamo's Community Forum</a></p>
 
                         </div>
                     </div>

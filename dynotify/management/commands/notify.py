@@ -18,4 +18,4 @@ class Command(BaseCommand):
         update_posts_db()
         result = send_dynotify()
 
-        self.stdout.write(self.style.SUCCESS('Dynotification Ended: %s' % result ))
+        self.stdout.write(self.style.SUCCESS('Dynotification Ended. Result: %s' % result ))
