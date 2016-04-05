@@ -11,10 +11,6 @@ Dynotify will probably cease to exist once oficial forum notifications are fixed
 * Use Celery to dispatch notifications (replace scheduler)
 * Feature: Add User Options: Frequency, type
 * Feature: Subscribe to Topic
-* Switch Domain to dynotify.com
-* Clean up + Paginate Post List on Home
-* Update Activity Count on Update 
-* Check spam acceptance/email formatting
 
 Live at:
-http://dynotify.herokuapp.com/
+dynotify.com
