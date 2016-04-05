@@ -13,4 +13,4 @@ Dynotify will probably cease to exist once oficial forum notifications are fixed
 * Feature: Subscribe to Topic
 
 Live at:
-http://dynotify.herokuapp.com/
+dynotify.com
