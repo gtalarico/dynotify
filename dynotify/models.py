@@ -11,7 +11,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     op = models.CharField(max_length=200)
     activity = models.IntegerField()
-    url = models.URLField(max_length=200)
+    url = models.URLField(max_length=400, unique=True)
 
     timestamp = models.DateTimeField(default=timezone.now)
     # latest_activity = models.DateTimeField(blank=True)

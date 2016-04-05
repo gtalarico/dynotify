@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib import messages
+from django.db.models import Q
 
 from .forms import SubscriberForm
 from .services import update_posts_db
@@ -56,6 +57,10 @@ def index(request):
     update_posts_db()
 
     context['form'] = form
-    context['posts'] = Post.objects.all().reverse()
+    context['posts'] = Post.objects.filter(~Q(status='sent')).order_by('-timestamp')
+    if context['posts']:
+        context['comment'] = '{} new or updated posts'.format(len(context['posts']))
+    else:
+        context['comment'] = 'Sweet. No new posts.'
 
     return render(request, 'index.html', context=context)
