@@ -56,6 +56,6 @@ def index(request):
     update_posts_db()
 
     context['form'] = form
-    context['posts'] = Post.objects.all()
+    context['posts'] = Post.objects.all().reverse()
 
     return render(request, 'index.html', context=context)

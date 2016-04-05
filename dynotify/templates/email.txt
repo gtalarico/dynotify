@@ -5,4 +5,4 @@ Dynotify
 {{ post.title }} | {{ post.activity  }} | {{ post.op }}
 {% endfor %}
 
-<p>To unsubscribe go to dynotify.herokuapps.com</p>
+<p>To unsubscribe go to dynotify.com</p>

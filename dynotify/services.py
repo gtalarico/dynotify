@@ -44,11 +44,15 @@ def update_posts_db():
         url = post.find(name='a',
                         attrs={'class': POST_TITLE_CLASS}).get('href')
 
-        if not Post.objects.filter(url=url).exists():
-            post = Post(title=title, op=op, activity=activity, url=url,
-                        status='new')
-            post.save()
-        # print post.text.encode('utf-8')
+        # Post does not exists:
+        # if not Post.objects.filter(url=url).exists():
+        post, created = Post.objects.update_or_create(title=title,
+                                                      op=op,
+                                                      activity=activity,
+                                                      url=url,
+                                                      status='new')
+        post.save()
+
 
 # This is called by a manager.py command notify, set on a 10 min schedule
 def send_dynotify():
