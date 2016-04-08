@@ -76,7 +76,7 @@ def update_posts_db():
 
 # This is called by a manager.py command notify, set on a 10 min schedule
 def send_dynotify():
-    posts = Post.objects.filter(~Q(status='sent'))
+    posts = Post.objects.exclude(status='sent')
 
     if posts:
         plaintext = get_template('email.txt')

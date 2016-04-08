@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib import messages
-from django.db.models import Q
+# from django.db.models import Q
 
 from .forms import SubscriberForm
 from .services import update_posts_db
@@ -28,10 +28,10 @@ def index(request):
             if not Subscriber.objects.filter(email=email).exists():
                 subscriber = form.save(commit=False)
                 subscriber.save()
-                messages.success(request, 'New Subscriber Added.')
                 send_email_subscribed(subscriber.email)
                 form = SubscriberForm()
                 logger.info('New subscriber added.')
+                messages.success(request, 'New Subscriber Added.')
             # Toggle is_active if email exists
             else:
                 subscriber = Subscriber.objects.filter(email=email).first()
@@ -57,7 +57,7 @@ def index(request):
     update_posts_db()
 
     context['form'] = form
-    context['posts'] = Post.objects.filter(~Q(status='sent')).order_by('-timestamp')
+    context['posts'] = Post.objects.exclude(status='sent').order_by('-timestamp')
     if context['posts']:
         context['comment'] = '{} new or updated posts'.format(len(context['posts']))
     else:
