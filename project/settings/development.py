@@ -9,17 +9,17 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS.append('debug_toolbar')
 
 # USE SQL
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'portal',
-#         # The following settings are not used with sqlite3:
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dynotify',
+        # The following settings are not used with sqlite3:
+        'USER': 'dynotifyuser',
+        'PASSWORD': 'dynotifyuser',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # LOOGER JSON CONFIG
 from .logger_config_local import LOGGER_CONFIG

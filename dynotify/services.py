@@ -20,7 +20,8 @@ from .models import Post, Subscriber
 
 logger = logging.getLogger()
 
-FORUM_URL = 'http://dynamobim.org/forums/forum/dyn/'
+FORUM_URL = 'http://dynamobim.org/forums/forum/dyn/page/{0}/'
+PAGES = 3
 POST_CONTAINERS_CLASS = 'bbp-topic bbp-custom-topics-container'
 POST_TITLE_CLASS = 'bbp-topic-permalink topic-title-bbpn'
 ACTIVITY_CLASS = 'topic-reply-count-area'
@@ -31,14 +32,15 @@ FROM_EMAIL = 'Dynotify <notification@dynotify.com>'
 
 def update_posts_db():
     logger.info('Updating Posts DB...')
-    r = requests.get(FORUM_URL)
-    print 'STATUS:', r.status_code
-    page = r.content
+    page = ''
+    for page_id in range(1, PAGES+1 ):
+        r = requests.get(FORUM_URL.format(page_id))
+        print 'STATUS:', r.status_code
+        page += r.content
 
     soup = bs4.BeautifulSoup(page, 'html.parser')
     posts_containers = soup.find_all(name='ul', attrs={
                        'id': POST_CONTAINERS_CLASS})
-
     posts = []
     post_dict = {}
     for post in posts_containers:
