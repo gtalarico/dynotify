@@ -2,6 +2,7 @@ import sys
 import logging
 
 import requests
+import requests.exceptions
 import bs4
 
 from django.core.mail import send_mail
@@ -33,8 +34,12 @@ FROM_EMAIL = 'Dynotify <notification@dynotify.com>'
 def update_posts_db():
     logger.info('Updating Posts DB...')
     page = ''
-    for page_id in range(1, PAGES+1 ):
-        r = requests.get(FORUM_URL.format(page_id))
+    for page_id in range(1, PAGES+1):
+        try:
+            r = requests.get(FORUM_URL.format(page_id))
+        except requests.exceptions.Timeout:
+            logger.error('Could not get content from forum')
+            return
         print 'STATUS:', r.status_code
         page += r.content
 
@@ -64,7 +69,7 @@ def update_posts_db():
         elif not Post.objects.filter(url=url).exists():
             logger.info('Saving URL: %s', url)
             new_post = Post(url=url, title=title, op=op,
-                        activity=activity, status='new')
+                            activity=activity, status='new')
             try:
                 new_post.save()
             except IntegrityError:
@@ -80,7 +85,7 @@ def send_dynotify():
 
     if posts:
         plaintext = get_template('email.txt')
-        htmly    = get_template('email.html')
+        htmly = get_template('email.html')
 
         context = Context()
         context['posts'] = posts
@@ -111,12 +116,13 @@ def send_dynotify():
 
 def send_email_subscribed(email):
     mail = EmailMultiAlternatives(
-    subject="Dynotify: Subscribed",
-    body="Your email has been added to dynotify.com",
-    to=[email],
-    from_email=FROM_EMAIL,
-    headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
-)
+                        subject="Dynotify: Subscribed",
+                        body="Your email has been added to dynotify.com",
+                        to=[email],
+                        from_email=FROM_EMAIL,
+                        headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+                        )
+
     mail.attach_alternative("<p>Your email has been subscribed to \
                             dynotify.com</p>", "text/html")
 
@@ -126,12 +132,12 @@ def send_email_subscribed(email):
 
 def send_email_unsubscribed(email):
     mail = EmailMultiAlternatives(
-    subject="Dynotify: Unsubsribed",
-    body="Your email has been remved from dynotify.com",
-    from_email=FROM_EMAIL,
-    to=[email],
-    headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
-)
+                        subject="Dynotify: Unsubsribed",
+                        body="Your email has been remved from dynotify.com",
+                        from_email=FROM_EMAIL,
+                        to=[email],
+                        headers={"Reply-To": "gtalarico+dynotify@gmail.com"}
+                        )
     mail.attach_alternative("<p>Your email has been subscribed to \
                             dynotify.com</p>", "text/html")
 

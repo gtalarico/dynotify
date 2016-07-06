@@ -14,6 +14,9 @@ from .models import Subscriber, Post
 logger = logging.getLogger()
 
 
+def posts(request):
+    pass
+
 def index(request):
     context = RequestContext(request)
     form = SubscriberForm()
@@ -54,7 +57,7 @@ def index(request):
                         form.cleaned_data.get('email'))
             messages.warning(request, message)
 
-    update_posts_db()
+    # update_posts_db()
 
     context['form'] = form
     context['posts'] = Post.objects.exclude(status='sent').order_by('-timestamp')
