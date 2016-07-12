@@ -21,22 +21,39 @@ from .models import Post, Subscriber
 
 logger = logging.getLogger()
 
-FORUM_URL = 'http://dynamobim.org/forums/forum/dyn/page/{0}/'
+FORUM_URL = 'https://forum.dynamobim.com/latest?no_definitions=true&page={0}'
 PAGES = 3
-POST_CONTAINERS_CLASS = 'bbp-topic bbp-custom-topics-container'
-POST_TITLE_CLASS = 'bbp-topic-permalink topic-title-bbpn'
-ACTIVITY_CLASS = 'topic-reply-count-area'
-OP_CLASS = 'bbp-author-name'
+POST_CONTAINERS_CLASS = 'ember-view topic-list-item'
+# POST_CONTAINERS_CLASS = 'ember-view topic-list-item category-python'
+POST_TITLE_CLASS = 'title'
+ACTIVITY_CLASS = 'num posts-map posts heatmap-low'
+OP_CLASS = 'avatar'
+# OP_CLASS = 'bbp-author-name'
+# ADD REPLIES
+# ADD ACTIVITY
+# ADD LAST
 
 FROM_EMAIL = 'Dynotify <notification@dynotify.com>'
 
-
+HEADERS = {
+    'Host': 'forum.dynamobim.com',
+    # 'Host': 'forum.dynamobim.com:443',
+    # 'Accept': 'application/json, text/javascript, */*; q=0.01',
+    # 'Accept-Encoding': 'gzip, deflate, sdch, br',
+    # 'Accept-Language': 'en-US,en;q=0.8,pt-BR;q=0.6,pt;q=0.4,es;q=0.2',
+    'Referer': 'https://forum.dynamobim.com/',
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    'X-Requested-With': 'XMLHttpRequest'
+    }
 def update_posts_db():
     logger.info('Updating Posts DB...')
     page = ''
     for page_id in range(1, PAGES+1):
         try:
-            r = requests.get(FORUM_URL.format(page_id))
+            print('Making request: ', FORUM_URL.format(page_id))
+            s = requests.Session()
+            s.headers.update(HEADERS)
+            r = s.get(FORUM_URL.format(page_id), verify=False)
         except requests.exceptions.Timeout:
             logger.error('Could not get content from forum')
             return
@@ -44,8 +61,11 @@ def update_posts_db():
         page += r.content
 
     soup = bs4.BeautifulSoup(page, 'html.parser')
-    posts_containers = soup.find_all(name='ul', attrs={
-                       'id': POST_CONTAINERS_CLASS})
+    posts_containers = soup.find_all(name='tr', attrs={
+                       'class': POST_CONTAINERS_CLASS})
+
+    soup.find_all('span',attrs={'itemprop':'name'})[0].text.strip()
+    import pdb; pdb.set_trace()
     posts = []
     post_dict = {}
     for post in posts_containers:
@@ -57,6 +77,7 @@ def update_posts_db():
                           attrs={'class': POST_TITLE_CLASS}).text.strip()
         url = post.find(name='a',
                         attrs={'class': POST_TITLE_CLASS}).get('href')
+        import pdb; pdb.set_trace()
 
         # Post does not exists:
         existing_post = Post.objects.filter(url=url).first()
